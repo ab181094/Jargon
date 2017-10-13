@@ -1,0 +1,58 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.csecu.amrit.jargon.list.ListActivity">
+    <item
+        android:id="@+id/addWord"
+        android:orderInCategory="100"
+        android:title="@string/add_word"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/createList"
+        android:orderInCategory="100"
+        android:title="@string/create_private_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/viewList"
+        android:orderInCategory="100"
+        android:title="@string/view_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/createType"
+        android:orderInCategory="100"
+        android:title="@string/create_type"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/allTypes"
+        android:orderInCategory="100"
+        android:title="@string/view_all_types"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/exam"
+        android:orderInCategory="100"
+        android:title="@string/examination"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/backup"
+        android:orderInCategory="100"
+        android:title="@string/backup_data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/importData"
+        android:orderInCategory="100"
+        android:title="@string/import_data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/developerInfo"
+        android:orderInCategory="100"
+        android:title="@string/developer_s_info"
+        app:showAsAction="never" />
+</menu>
