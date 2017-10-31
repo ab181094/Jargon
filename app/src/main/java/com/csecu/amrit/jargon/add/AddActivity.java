@@ -1,5 +1,6 @@
 package com.csecu.amrit.jargon.add;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 import com.csecu.amrit.jargon.R;
 import com.csecu.amrit.jargon.database.DatabaseHandler;
 import com.csecu.amrit.jargon.model.ModelWord;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class AddActivity extends AppCompatActivity {
     EditText etword, etmeaning;
@@ -88,9 +92,11 @@ public class AddActivity extends AppCompatActivity {
 
                 if (word != null && meaning != null && !word.equals("") && !meaning.equals("")) {
                     boolean result = addWord(word, meaning);
-
                     if (result) {
                         Snackbar.make(view, "Successful"
+                                , Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    } else {
+                        Snackbar.make(view, "Failed"
                                 , Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
                 }
@@ -102,6 +108,11 @@ public class AddActivity extends AppCompatActivity {
     private boolean addWord(String word, String meaning) {
         etword.setText("");
         etmeaning.setText("");
+
+        etword.requestFocus();
+
+        word = encodeString(word);
+        meaning = encodeString(meaning);
 
         ModelWord modelWord = new ModelWord();
         modelWord.setWord(word);
@@ -115,6 +126,14 @@ public class AddActivity extends AppCompatActivity {
         } else {
             databaseHandler.addWordtoDatabase(modelWord);
             return true;
+        }
+    }
+
+    private String encodeString(String word) {
+        try {
+            return URLEncoder.encode(word, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return word;
         }
     }
 

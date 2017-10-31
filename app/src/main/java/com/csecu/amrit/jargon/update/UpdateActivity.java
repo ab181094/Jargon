@@ -16,6 +16,9 @@ import com.csecu.amrit.jargon.R;
 import com.csecu.amrit.jargon.database.DatabaseHandler;
 import com.csecu.amrit.jargon.model.ModelWord;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class UpdateActivity extends AppCompatActivity {
@@ -49,6 +52,9 @@ public class UpdateActivity extends AppCompatActivity {
                 String type = (String) spType.getSelectedItem();
                 String list = (String) spList.getSelectedItem();
 
+                word = encodeString(word);
+                meaning = encodeString(meaning);
+
                 ModelWord modelWord1 = new ModelWord();
                 modelWord1.setWord(word);
                 modelWord1.setMeaning(meaning);
@@ -68,8 +74,14 @@ public class UpdateActivity extends AppCompatActivity {
     }
 
     private void showInfo(ModelWord modelWord) {
-        etword.setText(modelWord.getWord());
-        etmeaning.setText(modelWord.getMeaning());
+        String word = modelWord.getWord();
+        String meaning = modelWord.getMeaning();
+
+        word = decodeString(word);
+        meaning = decodeString(meaning);
+
+        etword.setText(word);
+        etmeaning.setText(meaning);
 
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         ArrayList<String> typeList = databaseHandler.getAllTypes();
@@ -101,6 +113,23 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void toastIt(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    private String encodeString(String word) {
+        try {
+            return URLEncoder.encode(word, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return word;
+        }
+    }
+
+    private String decodeString(String realAnswer) {
+        try {
+            realAnswer = URLDecoder.decode(realAnswer, "UTF-8");
+            return realAnswer;
+        } catch (UnsupportedEncodingException e) {
+            return realAnswer;
+        }
     }
 
 }

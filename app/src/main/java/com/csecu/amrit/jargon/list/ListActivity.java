@@ -3,7 +3,6 @@ package com.csecu.amrit.jargon.list;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -35,7 +34,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
@@ -91,7 +89,7 @@ public class ListActivity extends AppCompatActivity {
                                 new DatabaseHandler(getApplicationContext());
                         ModelWord modelWord = adapter.getItem(position);
                         databaseHandler.deleteItem(modelWord);
-                        showWords();
+                        recreate();
                         toastIt("Deleted");
                     }
                 })

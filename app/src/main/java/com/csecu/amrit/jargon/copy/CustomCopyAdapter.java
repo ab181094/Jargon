@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.csecu.amrit.jargon.R;
 import com.csecu.amrit.jargon.model.ModelWord;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +35,7 @@ public class CustomCopyAdapter extends ArrayAdapter<ModelWord> {
         View row;
         ViewHolder viewHolder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             row = LayoutInflater.from(getContext()).inflate(R.layout.copy_list, parent, false);
 
             viewHolder = new ViewHolder();
@@ -47,11 +50,33 @@ public class CustomCopyAdapter extends ArrayAdapter<ModelWord> {
 
         ModelWord modelWord = getItem(position);
 
-        viewHolder.tvWord.setText(modelWord.getWord().substring(0, 1).toUpperCase() +
-                modelWord.getWord().substring(1));
-        viewHolder.tvMeaning.setText(String.valueOf(modelWord.getMeaning().substring(0, 1).
-                toUpperCase() + modelWord.getMeaning().substring(1)));
+        String word = modelWord.getWord();
+        String meaning = modelWord.getMeaning();
+
+        word = decodeString(word);
+        meaning = decodeString(meaning);
+
+        viewHolder.tvWord.setText(word.substring(0, 1).toUpperCase() + word.substring(1));
+        viewHolder.tvMeaning.setText(String.valueOf(meaning.substring(0, 1).toUpperCase()
+                + meaning.substring(1)));
 
         return row;
+    }
+
+    private String encodeString(String word) {
+        try {
+            return URLEncoder.encode(word, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return word;
+        }
+    }
+
+    private String decodeString(String realAnswer) {
+        try {
+            realAnswer = URLDecoder.decode(realAnswer, "UTF-8");
+            return realAnswer;
+        } catch (UnsupportedEncodingException e) {
+            return realAnswer;
+        }
     }
 }

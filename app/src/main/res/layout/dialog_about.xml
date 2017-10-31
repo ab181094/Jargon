@@ -72,15 +72,15 @@
             </LinearLayout>
         </ScrollView>
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="3"
-            android:contentDescription="@string/developer"
             android:padding="5dp"
-            app:srcCompat="@drawable/my_image" />
+            android:src="@drawable/my_image"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
     </LinearLayout>
 
 </LinearLayout>

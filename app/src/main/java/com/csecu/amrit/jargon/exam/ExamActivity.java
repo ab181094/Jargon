@@ -16,13 +16,13 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.csecu.amrit.jargon.R;
-import com.csecu.amrit.jargon.copy.CopyActivity;
 import com.csecu.amrit.jargon.database.DatabaseHandler;
-import com.csecu.amrit.jargon.list.ListActivity;
-import com.csecu.amrit.jargon.listName.ViewListActivity;
 import com.csecu.amrit.jargon.model.ModelWord;
 import com.csecu.amrit.jargon.result.ResultActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -105,6 +105,7 @@ public class ExamActivity extends AppCompatActivity {
                 ExamActivity.this.getWindow().setSoftInputMode(WindowManager.
                         LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 String answer = etAnswer.getText().toString().trim().toLowerCase();
+                answer = encodeString(answer);
                 DatabaseHandler handler = new DatabaseHandler(getApplicationContext());
                 if (answer.equals(realAnswer)) {
                     totalCorrect++;
@@ -133,6 +134,7 @@ public class ExamActivity extends AppCompatActivity {
                         } else {
                             totalWrong++;
                             etAnswer.setText("");
+                            realAnswer = decodeString(realAnswer);
                             Snackbar.make(view, "Wrong Answer. Correct Answer is " + realAnswer,
                                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
                             getQuestion();
@@ -156,6 +158,7 @@ public class ExamActivity extends AppCompatActivity {
                         } else {
                             totalWrong++;
                             etAnswer.setText("");
+                            realAnswer = decodeString(realAnswer);
                             Snackbar.make(view, "Wrong Answer. Correct Answer: " + realAnswer,
                                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
                             getQuestion();
@@ -204,7 +207,7 @@ public class ExamActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }, 1000);
+            }, 1500);
         }
     }
 
@@ -219,11 +222,32 @@ public class ExamActivity extends AppCompatActivity {
         tvTotal.setText(String.valueOf(this.totalWords));
         tvCorrect.setText(String.valueOf(this.totalCorrect));
         tvWrong.setText(String.valueOf(this.totalWrong));
-        tvQuestion.setText(question.substring(0, 1).toUpperCase() + question.substring(1));
+        try {
+            tvQuestion.setText(URLDecoder.decode(question.substring(0, 1).toUpperCase(), "UTF-8") +
+                    URLDecoder.decode(question.substring(1), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            tvQuestion.setText(question.substring(0, 1).toUpperCase() + question.substring(1));
+        }
     }
 
     private void toastIt(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
+    private String encodeString(String word) {
+        try {
+            return URLEncoder.encode(word, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return word;
+        }
+    }
+
+    private String decodeString(String realAnswer) {
+        try {
+            realAnswer = URLDecoder.decode(realAnswer, "UTF-8");
+            return realAnswer;
+        } catch (UnsupportedEncodingException e) {
+            return realAnswer;
+        }
+    }
 }
